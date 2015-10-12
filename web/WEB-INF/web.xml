@@ -33,7 +33,7 @@
         que é usado para armazenar todas as mensagens em uma sala. 
         Após este limite as mensagens mais velhas serão removidas.
         O padrão é 25-->
-        <param-value>23</param-value>
+        <param-value>20</param-value>
     </context-param>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -67,6 +67,10 @@
     <servlet>
         <servlet-name>EmailDataServlet</servlet-name>
         <servlet-class>esse.chat.control.EmailDataServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxSendMessage</servlet-name>
+        <servlet-class>esse.chat.control.AjaxSendMessage</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ManageChatServlet</servlet-name>
@@ -105,6 +109,10 @@
     <servlet-mapping>
         <servlet-name>EmailDataServlet</servlet-name>
         <url-pattern>/EmailDataServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxSendMessage</servlet-name>
+        <url-pattern>/AjaxSendMessage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

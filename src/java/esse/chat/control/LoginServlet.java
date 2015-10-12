@@ -93,17 +93,23 @@ public class LoginServlet extends HttpServlet
 
                         chatter = new Chatter(chatterId, nick, name, sex, senha, nasc, email, status, new java.util.Date().getTime());
                         chatRoom.addChatter(chatter);
-                        
-                        session.setAttribute("chatroom", chatRoom);
+                        synchronized (context) {
+                            roomlist.removeRoom("SalaVip");
+                            roomlist.addRoom(chatRoom);
+                            context.setAttribute("myListRooms", roomlist);
+                        }
+                        //session.setAttribute("chatroom", chatRoom);
                         
                         String roomname = chatRoom.getName();
-                        session.setAttribute("chatter", chatter);
-                        session.setAttribute("roomname", roomname);
-                        session.setAttribute("sexo", sex);
-                        session.setAttribute("senha", senha);
-                        session.setAttribute("nickname", nickname);
-                        session.setAttribute("chatterid", chatterId);
-                        session.setAttribute("status", status);
+                        synchronized (session) {
+                            session.setAttribute("chatter", chatter);
+                            session.setAttribute("roomname", roomname);
+                            session.setAttribute("sexo", sex);
+                            session.setAttribute("senha", senha);
+                            session.setAttribute("nickname", nickname);
+                            session.setAttribute("chatterid", chatterId);
+                            session.setAttribute("status", status);
+                        }
                         response.sendRedirect(contextPath + "/listrooms.jsp");
                     }else{
                         response.sendRedirect(contextPath + "/login.jsp?ic=t");

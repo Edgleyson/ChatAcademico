@@ -46,7 +46,7 @@ public class ManageChatServlet extends HttpServlet
     public void init() throws ServletException {
         try {
             String sql = "SELECT * FROM ESSECHAT.CHATROOM";
-            this.rooms = ChatRoomList.getInstancia();
+            rooms = ChatRoomList.getInstancia();
             criarListaDeSalas(sql);
         } catch (SQLException ex) {
             Logger.getLogger(ManageChatServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -62,7 +62,7 @@ public class ManageChatServlet extends HttpServlet
         try {
             try (ResultSet rs = stmt.executeQuery()) {
                 String s = getServletContext().getInitParameter("maxNoOfMessages");
-		int maxMessages = 25;
+		int maxMessages = 20;
 		    if (s != null) {
                     try {
                         maxMessages = Integer.parseInt(s);

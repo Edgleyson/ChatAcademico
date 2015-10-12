@@ -49,7 +49,7 @@ public class ChatRoom implements Serializable {
 	* Linked list para armazenar objetos Message
 	*/
 	@Transient
-        private List messages = new LinkedList();
+        private List messages;
 	
 	/*
 	* Usado para setar o número máximo de mensagens
@@ -91,6 +91,7 @@ public class ChatRoom implements Serializable {
 	{
 		chatters = new HashMap();
                 monitores = new ArrayList<>();
+                messages = new LinkedList();
 	}
         
         
@@ -159,6 +160,7 @@ public class ChatRoom implements Serializable {
 		this.description = descr;
                 chatters = new HashMap();
                 monitores = new ArrayList<>();
+                messages = new LinkedList();
 	}
 	
         public ChatRoom(Long id, String name, String descr, long prof, long mt1, long mt2)
@@ -169,6 +171,7 @@ public class ChatRoom implements Serializable {
                 this.professor = prof;
                 chatters = new HashMap();
                 monitores = new ArrayList<>();
+                messages = new LinkedList();
 	}
 	
 	
@@ -251,6 +254,7 @@ public class ChatRoom implements Serializable {
 			Map.Entry me = (Map.Entry)chattersit.next();
 			long key = (long) me.getKey();
 			chattersArray[i] = (Chatter)me.getValue();
+                        System.out.println(chattersArray[i].getName());
 			i++;
 		}
 		return chattersArray;
@@ -276,6 +280,10 @@ public class ChatRoom implements Serializable {
 	{
 		return messages.listIterator();
 	}
+        
+        public List getListMessage(){
+            return this.messages;
+        }
 
 	/**
 	* Retorna um array de mensagens enviadas após determinado tempo

@@ -5,17 +5,13 @@
 <html>
     <head>
         <link rel="stylesheet" href="<%=request.getContextPath()%>/send.css">
-        <script type="text/javascript">
-        <!--
-
+        <script type="text/javascript">        
         function winopen(path)
         {
                 chatterinfo = window.open(path,"chatterwin","scrollbars=no,resizable=yes, width=400, height=300, location=no, toolbar=no, status=no");
                 chatterinfo.focus();
 
         }
-
-        //-->
         </script>
     </head>
     
@@ -41,8 +37,8 @@
         <div class="send">
         <form id="send" name="msg" action="<%=request.getContextPath()%>/sendMessage.jsp" method="post">    
             <label for="messagebox" class="white" />Digite aqui sua mensagem: </label>
-            <input type="text" name="messagebox" maxlength="300" size="50">
-        <input type="hidden" name="nickname" value="<%=nickname%>">
+            <input type="text" id="message" name="messagebox" maxlength="300" size="50">
+        <input type="hidden" id="nick" name="nickname" value="<%=nickname%>">
         <input name="submit" type="submit" value="Enviar" class="botao">   
         </form>
         </div>

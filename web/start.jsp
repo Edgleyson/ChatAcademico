@@ -27,19 +27,28 @@
         Chatter esseChatter = map.remove(chatterId);
         //e adicioná-lo à nova sala
         newRoom.addChatter(esseChatter);
+        synchronized (context) {
+            roomlist.removeRoom(roomname);
+            roomlist.removeRoom(newRoomName);
+            roomlist.addRoom(oldRoom);
+            roomlist.addRoom(newRoom);
+            context.setAttribute("myListRooms", roomlist);
+        }
+        
         Message msg = new Message("ESSEChat", nickname + " entrou na sala.", new java.util.Date().getTime());
         
-        String roomName = newRoom.getName();        
-        session.setAttribute("roomname", roomName);
-        session.setAttribute("salaatual", roomName);
-        
+        String roomName = newRoom.getName(); 
+        synchronized (session) {
+                session.setAttribute("roomname", roomName);
+                session.setAttribute("salaatual", roomName);
+            }
         esseChatter.setEnteredInRoomAt(new java.util.Date().getTime());
         newRoom.addMessage(msg);
-        response.sendRedirect("chat.jsp");
+        response.sendRedirect("esseChat.jsp");
     }else{
         Message msg2 = new Message("ESSEChat", nickname + " retornou à sala.", new java.util.Date().getTime());
         newRoom.addMessage(msg2);
-        response.sendRedirect("chat.jsp");
+        response.sendRedirect("esseChat.jsp");
     }
 %>
              
