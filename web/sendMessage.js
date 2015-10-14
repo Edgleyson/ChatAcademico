@@ -93,6 +93,9 @@ function atualizar() {
 function iniciarChat(){
     var formulario = document.getElementById("send");
     formulario.onsubmit = enviar;
+    var formulario = document.getElementById("up");
+    formulario.onchange = subir;
+    
     document.getElementById("message").focus();
     mTimer = setTimeout ("atualizar()", timer);
     atualizar();
@@ -125,4 +128,35 @@ function enviar(evt){
     }
 }
 
+function subir(){
+    
+    clearInterval (mTimer);
+    var len = this.files.length, formdata = new FormData();
+
+    for (var i = 0; i < len; i++) {
+        var file = this.files[i];
+        var tipo = file.type;
+
+        if (tipo.match(/image.*/) || tipo.match(/application.*/)) {
+            var reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            formdata.append("images[]", file);
+        }
+    }
+    xhr.open("post", "Upload", true);
+    xhr.onreadystatechange = uploadOk;
+    xhr.send(formdata);
+    document.getElementById("formup").reset();
+    return false;
+}
+
+function uploadOk() {
+        if (xhr.readyState === 4) {
+            var ok = xhr.responseText;
+            alert(ok);
+            mTimer = setTimeout ("atualizar()", timer);
+        }
+ }
+        
 onload = iniciarChat;

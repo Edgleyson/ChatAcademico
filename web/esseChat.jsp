@@ -88,7 +88,8 @@
             </form>
             <form name="logout" action="logout.jsp" method="post" target="_top">
                 <input class="botoes" type="Submit" value="Sair">
-            </form>
+            </form><br>
+            
         </aside>
         <section class="listMsg">
             <%                Chatter chatter = null;
@@ -145,7 +146,12 @@
                 <input type="text" id="message" name="messagebox" maxlength="300" size="35">
                 <input type="hidden" id="nick" name="nickname" value="<%=session.getAttribute("nickname")%>">
                 <input name="submit" type="submit" value="Enviar">   
-            </form><br>
+            </form>
+            <form id="formup" method="post" action="Upload" enctype="multipart/form-data">
+                Postar arquivo:
+                <input id="up" type="file" name="file" />
+                <input type="submit" value="Upload"/>
+            </form>
         </footer>
     </body>
 

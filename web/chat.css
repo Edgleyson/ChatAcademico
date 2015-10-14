@@ -368,6 +368,13 @@ ul{
     margin-top: 0px;
     margin-left: 300px;
     }
+    
+#formup{
+   position: absolute; 
+   margin-top: 0px;
+   margin-left: 700px;
+   color: white;
+}
   
 #display{
     position: absolute; 
