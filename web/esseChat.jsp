@@ -24,21 +24,6 @@
         <meta name="Author" content="Equipe ESSE Chat (Edgleyson, Edlas, Saulo e Sérgio)">
         <meta charset="UTF-8">
         <link rel="stylesheet" href="<%=request.getContextPath()%>/chat.css">
-        <script type="text/javascript" >
-            function reload()
-            {
-                window.location.reload();
-            }
-
-
-
-            function winopen(path)
-            {
-                chatterinfo = window.open(path, "chatterwin", "scrollbars=no,resizable=no, width=800, height=600, location=no, toolbar=no, status=no");
-                chatterinfo.focus();
-            }
-
-        </script>
         <script type="text/javascript" src="sendMessage.js"></script>
     </head>
 
@@ -48,9 +33,9 @@
             <%@ include file="pageheader.html" %>
         </header>
         <aside>       
-            <form name="changeRoom" method="post" action="<%=request.getContextPath()%>/listrooms.jsp">
+            <form id="changeRoom" name="changeRoom" method="post" action="<%=request.getContextPath()%>/listrooms.jsp">
                 <input type="hidden" name="n" value="<%=nickname%>">
-                <input class="botoes"  type="button"  value="Escolher Outra Sala" onClick='window.open("listrooms.jsp", "_self")'>
+                <input class="botoes"  type="button"  value="Escolher Outra Sala">
             </form>
 
             <%
@@ -59,11 +44,11 @@
                 int chatterStatus = Integer.parseInt(status);
                 if (chatterStatus == 3) {
             %>
-            <form name="find">
-                <input class="botoes" type="button" value="Cadastrar Professor" onClick='window.open("cadastrarMonitor.jsp?usuario=p")'>
+            <form id="find" name="find">
+                <input class="botoes" type="button" value="Cadastrar Professor">
             </form>
-            <form name="find2">
-                <input class="botoes" type="button" value="Cadastrar Monitor" onClick='window.open("cadastrarMonitor.jsp?usuario=m")'>
+            <form id="find2" name="find2">
+                <input class="botoes" type="button" value="Cadastrar Monitor">
             </form>
             <%
                 }
@@ -75,16 +60,20 @@
                     prof = chatRoom.getProfessor();
                     if (prof == chatterId) {
             %>
-            <form name="find2">
-                <input class="botoes" type="button" value="Cadastrar Monitor" onClick='window.open("cadastrarMonitor.jsp?usuario=m")'>
+            <form id="find2" name="find2">
+                <input class="botoes" type="button" value="Cadastrar Monitor">
             </form>
             <%
                     }
                 }
 
             %>
-            <form name="refresh">
-                <input class="botoes" type="Button" value="Refresh" onClick="reload()">
+            <form name="listaarquivos" method="post" action="<%=request.getContextPath()%>/ListaArquivosServlet">
+                <input class="botoes"  type="submit"  value="Repositório">
+            </form>
+            
+            <form id="refresh" name="refresh">
+                <input class="botoes" type="Button" value="Refresh">
             </form>
             <form name="logout" action="logout.jsp" method="post" target="_top">
                 <input class="botoes" type="Submit" value="Sair">

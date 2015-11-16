@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>exemplo_12</groupId>
+  <artifactId>exemplo_12_bean_validation</artifactId>
+  <versioning>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20151010170017</lastUpdated>
+  </versioning>
+</metadata>

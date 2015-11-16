@@ -90,15 +90,13 @@ function atualizar() {
     xhr.send();
 }
 
-function iniciarChat(){
-    var formulario = document.getElementById("send");
-    formulario.onsubmit = enviar;
-    var formulario = document.getElementById("up");
-    formulario.onchange = subir;
-    
-    document.getElementById("message").focus();
-    mTimer = setTimeout ("atualizar()", timer);
-    atualizar();
+function reload() {
+    window.location.reload();
+}
+
+function winopen(path) {
+    chatterinfo = window.open(path, "chatterwin", "scrollbars=no,resizable=no, width=800, height=600, location=no, toolbar=no, status=no");
+    chatterinfo.focus();
 }
 
 function limpar(){
@@ -128,20 +126,31 @@ function enviar(evt){
     }
 }
 
-function subir(){
+function subir(files){
     
     clearInterval (mTimer);
-    var len = this.files.length, formdata = new FormData();
+    var len = files.length;
+    var formdata = new FormData();
+//    var nick = document.getElementById("formup");
+//    var nickname = nick.nickname.value;
 
     for (var i = 0; i < len; i++) {
-        var file = this.files[i];
+        var file = files[i];
         var tipo = file.type;
+        var tam = file.size;
+        tam = tam / 1048576; //tamanho em mb 
+        
+ 
 
-        if (tipo.match(/image.*/) || tipo.match(/application.*/)) {
+//        if (tipo.match(/image.*/) || tipo.match(/application.*/)) {
+    if(tam <= 100){
             var reader = new FileReader();
 
             reader.readAsDataURL(file);
             formdata.append("images[]", file);
+        }else{
+            alert("Excedeu o limite de 100Mb por arquivo");
+            return false;
         }
     }
     xhr.open("post", "Upload", true);
@@ -158,5 +167,54 @@ function uploadOk() {
             mTimer = setTimeout ("atualizar()", timer);
         }
  }
+ 
+ function escolherSala(){
+     window.open("listrooms.jsp", "_self");
+ }
+ function cadastrarProfessor(){
+     window.open("cadastrarMonitor.jsp?usuario=p");
+ }
+ function cadastrarMonitor(){
+     window.open("cadastrarMonitor.jsp?usuario=m");
+ }
+ 
+ function iniciarChat(){
+    var formulario = document.getElementById("send");
+    formulario.onsubmit = enviar;
+    var escolha = document.getElementById("changeRoom");
+    escolha.onclick = escolherSala;
+    var find = document.getElementById("find");
+    find.onclick = cadastrarProfessor;
+    var find2 = document.getElementById("find2");
+    find2.onclick = cadastrarMonitor;
+    var refresh = document.getElementById("refresh");
+    refresh.onclick = reload;
+//    var formulario2 = document.getElementById("up");
+//    formulario2.onchange = subir;
+    var formulario2 = document.getElementById("formup");
+    formulario2.onsubmit = function(evt){
+    var fileUpload = document.getElementById("up");
+    if (fileUpload.files.length == 0) {
+        alert("Nenhum Arquivo Selecionado");
+        return false;
+    }else{
+        evt.preventDefault();
+        subir(fileUpload.files);
+    }
+    };
+//    var formulario3 = document.getElementById("up");
+//    
+//    formulario3.onchange = function(evt){
+//     var arq = formulario3.files[0];
+//     if (arq.size/100000 > 100) {
+//               
+//        alert("Excedeu o limite de 100Mb por arquivo");
+//        
+//    }
+//    };
+    document.getElementById("message").focus();
+    mTimer = setTimeout ("atualizar()", timer);
+    atualizar();
+}
         
 onload = iniciarChat;

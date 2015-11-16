@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>javax.servlet</groupId>
+  <artifactId>javax.servlet</artifactId>
+  <name>Servlet API Bundle</name>
+  <version>2.4.0.v200706111738</version>
+  <licenses>
+    <license>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <organization>
+    <name>Eclipse.org</name>
+  </organization>
+</project>

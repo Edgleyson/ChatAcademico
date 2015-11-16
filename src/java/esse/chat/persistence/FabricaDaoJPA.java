@@ -54,5 +54,10 @@ public class FabricaDaoJPA extends FabricaDAO{
     public ChatRoomDao createChatRoomDAO() {
         return new ChatRoomDaoJPA();
     }
+
+    @Override
+    public ArquivoDao createArquivoDAO() {
+        return new ArquivoDaoJPA();
+    }
     
 }

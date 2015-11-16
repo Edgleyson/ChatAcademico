@@ -13,4 +13,5 @@ public abstract class FabricaDAO {
 
     public abstract ChatterDao createChatterDAO();
     public abstract ChatRoomDao createChatRoomDAO();
+    public abstract ArquivoDao createArquivoDAO();
 }

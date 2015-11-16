@@ -1,4 +1,4 @@
-<%@page import="esse.chat.model.Chatter"%>
+
 <%@page import="java.util.List"%>
 <%@page import="java.sql.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

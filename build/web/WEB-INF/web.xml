@@ -61,6 +61,10 @@
         <servlet-class>esse.chat.control.ListaChattersServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ListaArquivosServlet</servlet-name>
+        <servlet-class>esse.chat.control.ListaArquivosServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ErrorHandler</servlet-name>
         <servlet-class>esse.chat.control.ErrorHandler</servlet-class>
     </servlet>
@@ -71,6 +75,10 @@
     <servlet>
         <servlet-name>AjaxSendMessage</servlet-name>
         <servlet-class>esse.chat.control.AjaxSendMessage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Upload</servlet-name>
+        <servlet-class>esse.chat.control.Upload</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ManageChatServlet</servlet-name>
@@ -97,6 +105,10 @@
         <url-pattern>/ListaChattersServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>ListaArquivosServlet</servlet-name>
+        <url-pattern>/ListaArquivosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ErrorHandler</servlet-name>
         <url-pattern>/ErrorHandler</url-pattern>
     </servlet-mapping>
@@ -113,6 +125,10 @@
     <servlet-mapping>
         <servlet-name>AjaxSendMessage</servlet-name>
         <url-pattern>/AjaxSendMessage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Upload</servlet-name>
+        <url-pattern>/Upload</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -38,5 +38,10 @@ public class FabricaDaoJDBC extends FabricaDAO{
     public ChatRoomDao createChatRoomDAO() {
         return new ChatRoomDaoJDBC();
     }
+
+    @Override
+    public ArquivoDao createArquivoDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

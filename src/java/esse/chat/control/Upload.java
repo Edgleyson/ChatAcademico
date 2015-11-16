@@ -5,12 +5,20 @@
  */
 package esse.chat.control;
 
+import esse.chat.model.Arquivo;
+import esse.chat.persistence.ArquivoDao;
+import esse.chat.persistence.ChatRoomList;
+import esse.chat.persistence.Fabrica;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +26,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import org.json.JSONObject;
+import static com.google.common.primitives.Bytes.concat;
 
 
 @MultipartConfig
 public class Upload extends HttpServlet {
+    
+    private static final String tipo = "JPA";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -67,51 +77,99 @@ public class Upload extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext context = request.getServletContext();
+        ChatRoomList roomlist = (ChatRoomList)context.getAttribute("myListRooms");
         HttpSession session = request.getSession();
             String roomname = (String) session.getAttribute("roomname");
             String nickname = (String) session.getAttribute("nickname");
+        Object obj = roomlist.getRoom(roomname).getId();
+        String id = obj.toString();
+        long roomId = Long.parseLong(id);
+            //String mimeType = request.getParameter("mimeType");
+            
+        //Part filePart = request.getPart("file");
         Collection<Part> items = request.getParts();
+        String nome = "", mime = "";
+        byte[] buffer;
+        byte[] bFile = new byte[] {};
+        for (Part item : items) {
+            nome = item.getSubmittedFileName();
+            mime = item.getContentType();
+        
+            InputStream is = item.getInputStream();
+            int size = is.available();
+            buffer = new byte[size];
+            int nLidos;
+            while ((nLidos = is.read(buffer)) >= 0) {
+                bFile = concat(bFile, buffer);
+            }
+        }
+//                    output.write(buffer, 0, nLidos);
+//                }
+//            nLidos = is.read(buffer);
+//            bFile += buffer;
+//        }
+//        byte[] bFile;
+//        try (InputStream is = filePart.getInputStream()) {
+//            int size = is.available();
+//            bFile = new byte[size];
+//            is.read(bFile, 0, size);
+//        }
+//        String mimeType = filePart.getContentType();
+//        String nome = filePart.getName();
+        
+        Arquivo arq = new Arquivo(nome, roomId, nickname, mime, bFile);
+        
+        // salva o contato usando o padrão DAO
+            ArquivoDao arquivoDao;
+            arquivoDao = Fabrica.FabricaMethod(tipo).createArquivoDAO();
+        try {
+            arquivoDao.subirArquivo(arq);
+        } catch (SQLException ex) {
+            Logger.getLogger(Upload.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("Arquivo enviado com sucesso!");
+    }          
+//        Collection<Part> items = request.getParts();
         // Pega o diretório /logo dentro do diretório atual de onde a
         // aplicação está rodando
-        String caminhodefault = getServletContext().getRealPath("");
-        String caminho = caminhodefault + "\\chat";
+//        String caminhodefault = getServletContext().getRealPath("");
+//        String caminho = caminhodefault + "\\chat";
 
         // Cria o diretório caso ele não exista
-        File diretorio = new File(caminho);
-        if (!diretorio.exists()) {
-            diretorio.mkdir();
-        }
+//        File diretorio = new File(caminho);
+//        if (!diretorio.exists()) {
+//            diretorio.mkdir();
+//        }
 
-        for (Part item : items) {
+//        for (Part item : items) {
             // Mandar o arquivo para o diretório informado
-            String nome = item.getSubmittedFileName();
+//            String nome2 = item.getSubmittedFileName();
+//            String mime = item.getContentType();
 //        String arq[] = nome.split("\\\\");
 //        for (int i = 0; i < arq.length; i++) {
 //            nome = arq[i];
 //        }
 
-            File file = new File(diretorio, nome);
-            try (FileOutputStream output = new FileOutputStream(file)) {
-                InputStream is = item.getInputStream();
-                byte[] buffer = new byte[2048];
-                int nLidos;
-                while ((nLidos = is.read(buffer)) >= 0) {
-                    output.write(buffer, 0, nLidos);
-                }
-                
-                output.flush();
-            }
-        }
-        
-//        JSONObject job = new JSONObject();
-//            job.put("chatterName", nickname);
-//            job.put("message", "Upload do arquivo: "+nome);
-//            job.put("timeStamp", message.getTimeStamp());
-
-        response.setContentType("text/plain");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write("Arquivo enviado com sucesso!");
-    }
+//            File file = new File(diretorio, nome);
+//            try (FileOutputStream output = new FileOutputStream(file)) {
+//                InputStream is = item.getInputStream();
+//                byte[] buffer = new byte[2048];
+//                int nLidos;
+//                while ((nLidos = is.read(buffer)) >= 0) {
+//                    output.write(buffer, 0, nLidos);
+//                }
+//                
+//                output.flush();
+//            }
+//        }
+//
+//        response.setContentType("text/plain");
+//        response.setCharacterEncoding("UTF-8");
+//        response.getWriter().write("Arquivo enviado com sucesso!");
+//    }
 
     /**
      * Returns a short description of the servlet.
